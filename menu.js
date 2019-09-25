@@ -9,7 +9,6 @@ const {
 	openNewGitHubIssue,
 	debugInfo
 } = require('electron-util');
-const config = require('./config');
 
 const showPreferences = () => {
 	// Show the app's preferences here
@@ -18,11 +17,11 @@ const showPreferences = () => {
 const helpSubmenu = [
 	openUrlMenuItem({
 		label: 'Website',
-		url: 'https://github.com/sindresorhus/electron-boilerplate'
+		url: 'https://github.com/ssbc/ssb-backup-tool'
 	}),
 	openUrlMenuItem({
 		label: 'Source Code',
-		url: 'https://github.com/sindresorhus/electron-boilerplate'
+		url: 'https://github.com/ssbc/ssb-backup-tool'
 	}),
 	{
 		label: 'Report an Issue…',
@@ -36,8 +35,8 @@ const helpSubmenu = [
 ${debugInfo()}`;
 
 			openNewGitHubIssue({
-				user: 'sindresorhus',
-				repo: 'electron-boilerplate',
+				user: 'ssbc',
+				repo: 'ssb-backup-tool',
 				body
 			});
 		}
@@ -51,7 +50,7 @@ if (!is.macos) {
 		},
 		aboutMenuItem({
 			icon: path.join(__dirname, 'static', 'icon.png'),
-			text: 'Created by Your Name'
+			text: 'Created by Secure Scuttlebutt Consortium'
 		})
 	);
 }
@@ -134,12 +133,6 @@ const otherTemplate = [
 	{
 		role: 'fileMenu',
 		submenu: [
-			{
-				label: 'Custom'
-			},
-			{
-				type: 'separator'
-			},
 			{
 				label: 'Settings',
 				accelerator: 'Control+,',

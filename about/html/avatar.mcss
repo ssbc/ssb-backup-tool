@@ -1,0 +1,25 @@
+Avatar {
+  cursor: pointer
+  $circleSmall
+
+  -tiny {
+    $circleTiny
+  }
+
+  -halfSmall {
+    $circleHalfSmall
+  }
+
+  -small {
+    $circleSmall
+  }
+
+  -medium {
+    $circleMedium
+  }
+
+  -large {
+    $circleLarge
+  }
+}
+
