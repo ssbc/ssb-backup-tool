@@ -20,7 +20,7 @@ exports.create = (api) => {
 		const strings = api.translations.sync.strings()
 		const feed = api.keys.sync.id()
 		const name = api.about.obs.name(feed)
-		const exportIdentityButton = api.backup.html.exportIdentityButton(name)
+		const exportIdentityButton = api.backup.html.exportIdentityButton()
 
 		return h('Page -main', {title: strings.app.name}, [
 			h('h1', strings.app.name),
@@ -31,10 +31,7 @@ exports.create = (api) => {
 				])
 			]),
 			h('section -backup', [
-				h('div.left', strings.backup.sectionName),
-				h('div.right', [
-					exportIdentityButton
-				])
+				exportIdentityButton
 			])
 		])
 	}

@@ -14,44 +14,60 @@ exports.needs = nest({
 })
 
 exports.create = (api) => {
-	return nest('backup.html.exportIdentityButton', (name) => {
+	return nest('backup.html.exportIdentityButton', () => {
 		const strings = api.translations.sync.strings()
 
 		const exporting = Value()
 		const success = Value()
+		const feed = api.keys.sync.id()
 
 		function exportAction() {
 			exporting.set(true)
 			success.set() // the resets the tick if there are multiple backup exports done
 
-			let feedFragment = api.keys.sync.id().slice(1, 6)
+			let feedFragment = feed.slice(1, 6)
 			dialog.showSaveDialog(
 				{
 					title: strings.backup.export.dialog.title,
-					butttonLabel: strings.backup.export.dialog.label,
-					defaultPath: `${name} (${feedFragment}).ssb-backup`
-				},
-				(filename) => api.backup.async.exportIdentity(filename, (err, res) => {
-					exporting.set(false)
-					if (err) {
-						console.error(err)
-						success.set(false)
+					buttonLabel: strings.backup.export.dialog.label,
+					defaultPath: `${feedFragment}.ssb-backup`
+				})
+				.then((data) => {
+					console.log("returned", data )
+					const canceled = data.canceled
+					const filename = data.filePath
+					if (canceled ) {
+						exporting.set(false)
 					} else {
-						console.log('exported')
-						success.set(true)
+						api.backup.async.exportIdentity(feed, filename, (err, res) => {
+							exporting.set(false)
+							if (err) {
+								console.error(err)
+								success.set(false)
+							} else {
+								console.log('exported')
+								success.set(true)
+							}
+						})
 					}
 				})
-			)
+
+		}
+
+		function importAction() {
+
 		}
 
 		return h('div.backupKeys', [
 			h('Button -backup', {'ev-click': exportAction}, strings.backup.export.exportAction),
-			computed([exporting, success], (exporting, success) => {
-				if (success === true) return h('i.fa.fa-check')
-				if (success === false) return h('i.fa.fa-times')
+			h('Button -import', {'ev-click': importAction}, strings.backup.import.importAction),
+			h('div.status',
+				computed([exporting, success], (exporting, success) => {
+					if (success === true) return h('i.fa.fa-2x.fa-check')
+					if (success === false) return h('i.fa.fa-2x.fa-times')
 
-				if (exporting) return h('i.fa.fa-spinner.fa-pulse')
-			})
+					if (exporting) return h('i.fa.fa-2x.fa-spinner.fa-pulse')
+				}))
 		])
 	})
 }

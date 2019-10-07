@@ -1,3 +1,8 @@
+Button {
+	margin: 10px
+	width: 160px
+}
+
 Button -backup {
   margin-right: 1rem
 }
@@ -11,4 +16,8 @@ textarea#encryptionKey {
   margin-bottom: .5rem
 
   outline: none
+}
+
+div.status {
+	text-align: center;
 }

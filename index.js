@@ -56,8 +56,8 @@ const createMainWindow = async () => {
 	const win = new BrowserWindow({
 		title: "SSB Backup Tool",
 		show: false,
-		width: 600,
-		height: 400,
+		width: 400,
+		height: 600,
 		webPreferences: { nodeIntegration: true }
 	});
 
