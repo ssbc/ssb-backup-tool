@@ -1,9 +1,9 @@
-matrix: 
+matrix:
   include:
     - os: osx
       osx_image: xcode9.4
       language: node_js
-      node_js: lts/*
+      node_js: 10
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
@@ -28,7 +28,9 @@ before_install:
       npm uninstall --save mouse-forward-back
     fi
 
-script: npm test && npm run dist
+script:
+  - npm run release
+  - npm run fix-release-notes
 
 
 branches:

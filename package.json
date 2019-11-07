@@ -19,7 +19,7 @@
 		"dist:mac": "electron-builder --macos",
 		"dist:win": "electron-builder  --windows",
 		"dist:linux": "electron-builder --linux",
-		"release": "env-cmd dist -- --publish always",
+		"release": "env-cmd electron-builder --macos --windows --linux --publish always",
 		"release:win": "env-cmd electron-builder --windows --publish always",
 		"fix-release-notes": "env-cmd node scripts/fix-release-notes.js"
 	},
@@ -71,7 +71,7 @@
 		"ssb-ws": "^6.2.3"
 	},
 	"devDependencies": {
-		"electron": "^7.1.0",
+		"electron": "^7.0.0",
 		"electron-builder": "^22.1.0",
 		"env-cmd": "^10.0.1",
 		"handlebars": "^4.5.1",
@@ -87,9 +87,7 @@
 				"github"
 			],
 			"target": [
-				"nsis",
-				"portable",
-				"zip"
+				"nsis"
 			]
 		},
 		"mac": {
@@ -116,12 +114,7 @@
 		},
 		"linux": {
 			"target": [
-				"AppImage",
-				"deb",
-				"rpm",
-				"tar.xz",
-				"freebsd",
-				"snap"
+				"AppImage"
 			],
 			"publish": [
 				"github"
