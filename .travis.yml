@@ -29,8 +29,8 @@ before_install:
     fi
 
 script:
-  - npm run release
-  - npm run fix-release-notes
+  - npm run release-ci
+  - npm run fix-release-notes-ci
 
 
 branches:
