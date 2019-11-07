@@ -13,16 +13,15 @@
 	},
 	"scripts": {
 		"postinstall": "electron-builder install-app-deps",
-		"lint": "xo",
-		"test": "npm run lint",
 		"start": "cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron .",
 		"pack": "electron-builder --dir",
-		"dist": "electron-builder  --windows",
+		"dist": "electron-builder --macos --windows --linux ",
 		"dist:mac": "electron-builder --macos",
 		"dist:win": "electron-builder  --windows",
 		"dist:linux": "electron-builder --linux",
-		"release": "np",
-		"release:win": "env-cmd electron-builder --windows --publish always" 
+		"release": "env-cmd dist -- --publish always",
+		"release:win": "env-cmd electron-builder --windows --publish always",
+		"fix-release-notes": "env-cmd node scripts/fix-release-notes.js"
 	},
 	"dependencies": {
 		"cross-env": "^6.0.0",
@@ -75,19 +74,11 @@
 		"electron": "^7.1.0",
 		"electron-builder": "^22.1.0",
 		"env-cmd": "^10.0.1",
+		"handlebars": "^4.5.1",
+		"node-fetch": "^2.6.0",
 		"np": "^5.0.3",
+		"open": "^7.0.0",
 		"xo": "^0.24.0"
-	},
-	"xo": {
-		"envs": [
-			"node",
-			"browser"
-		]
-	},
-	"np": {
-		"publish": false,
-		"releaseDraft": false,
-		"anyBranch": true 
 	},
 	"build": {
 		"appId": "org.ssbc.ssb-backup-tool",
@@ -149,11 +140,9 @@
 		"!.editorconfig",
 		"!.env",
 		"!**/._*",
-		"!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+		"!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes,.vscode,.idea}",
 		"!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-		"!**/{appveyor.yml,.travis.yml,circle.yml}",
-		"!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-		"!.vscode",
-		"!.idea"
-	  ]
+		"!**/{appveyor.yml,.travis.yml,circle.yml,.env}",
+		"!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+	]
 }
