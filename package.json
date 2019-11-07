@@ -70,8 +70,8 @@
 		"ssb-ws": "^6.2.3"
 	},
 	"devDependencies": {
-		"electron": "^6.0.7",
-		"electron-builder": "^21.2.0",
+		"electron": "^7.1.0",
+		"electron-builder": "^22.1.0",
 		"np": "^5.0.3",
 		"xo": "^0.24.0"
 	},
@@ -88,12 +88,16 @@
 	"build": {
 		"appId": "org.ssbc.ssb-backup-tool",
 		"win": {
-			"publish": ["github"]
+			"publish": [
+				"github"
+			]
 		},
 		"mac": {
 			"category": "public.app-category.social-networking",
 			"darkModeSupport": true,
-			"publish": ["github"]
+			"publish": [
+				"github"
+			]
 		},
 		"dmg": {
 			"iconSize": 160,
@@ -115,7 +119,9 @@
 				"AppImage",
 				"deb"
 			],
-			"publish": ["github"],
+			"publish": [
+				"github"
+			],
 			"category": "Network;Chat"
 		}
 	}

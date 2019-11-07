@@ -59,7 +59,7 @@ exports.create = (api) => {
 
 		return h('div.backupKeys', [
 			h('Button -backup', {'ev-click': exportAction}, strings.backup.export.exportAction),
-			h('Button -import', {'ev-click': importAction}, strings.backup.import.importAction),
+			// h('Button -import', {'ev-click': importAction}, strings.backup.import.importAction),
 			h('div.status',
 				computed([exporting, success], (exporting, success) => {
 					if (success === true) return h('i.fa.fa-2x.fa-check')
