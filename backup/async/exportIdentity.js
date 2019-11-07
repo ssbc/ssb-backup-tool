@@ -1,5 +1,5 @@
 const nest = require('depnest')
-const {onceTrue} = require('mutant')
+const {onceTrue, computed, resolve} = require('mutant')
 const path = require('path')
 const fs = require('fs')
 const parallel = require('run-parallel')
@@ -9,18 +9,22 @@ const config = require('../../config').create().config.sync.load()
 const gossipFile = path.join(config.path, 'gossip.json')
 const connFile = path.join(config.path, 'conn.json')
 const secretFile = path.join(config.path, 'secret')
+const pull = require('pull-stream')
 
 exports.gives = nest('backup.async.exportIdentity')
 
 exports.needs = nest({
-	'sbot.obs.connection': 'first'
+	'sbot.obs.connection': 'first',
+	'about.obs.name': 'first',
+	'about.obs.image': 'first',
+	'about.obs.imageUrl': 'first'
 })
 
 exports.create = function (api) {
 	return nest('backup.async.exportIdentity', (feed, filename, cb) => {
 		if (typeof filename === 'undefined') return cb(new Error('backup requires a filename'))
 
-		console.log(`should export identity to file ${filename}`)
+		console.log("begin export")
 
 		let backup = {
 			feed: feed,
@@ -37,65 +41,51 @@ exports.create = function (api) {
 		}
 
 		onceTrue(api.sbot.obs.connection, sbot => {
-			parallel([
-				getLatestSequence,
-				// getGossipFollowers,
-				// getPeersLatestSequence
-			], save)
-
 			function getLatestSequence(done) {
 				sbot.latestSequence(sbot.id, (err, seq) => {
 					if (err) return done(err)
 
 					backup.latestSequence = seq
+					console.log('latest seq', seq)
 					done(null)
 				})
 			}
 
-			function getGossipFollowers(done) {
-				// the peers in gossip list who follow me
-				sbot.friends.get({dest: sbot.id}, (err, followers) => {
-					if (err) return done(err)
+			async function getName(done) {
+				async function getDataUriFromURL(url) {
+					return new Promise((resolve, reject) => {
+						const image = new Image();
 
-					backup.gossip.forEach(record => {
-						if (followers[record.key]) record.followsMe = true
+						image.onload = function () {
+							var canvas = document.createElement('canvas');
+							canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+							canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+							canvas.getContext('2d').drawImage(this, 0, 0);
+
+							// ... or get as Data URI
+							resolve(canvas.toDataURL('image/png'));
+						};
+
+						image.src = url;
 					})
+				}
 
-					done(null)
-				})
+				const name = resolve(api.about.obs.name(sbot.id))
+				const imageUrl = resolve(api.about.obs.imageUrl(sbot.id))
+				const imageBlob = await getDataUriFromURL(imageUrl)
+
+				backup.name = name
+				backup.avatarImage = imageBlob
+				done(null)
+
+
 			}
 
-			function getPeersLatestSequence(done) {
-				sbot.friends.get({source: sbot.id}, (err, d) => {
-					if (err) return done(err)
-
-					var follows = Object.keys(d).filter(id => d[id] === true)
-
-					mapLimit(follows, 5,
-						(id, cb) => sbot.latestSequence(id, (err, seq) => {
-							if (err && err.message && err.message.indexOf('not found') > 0) {
-								console.error(err)
-								return cb(null, null) // don't include this user
-							}
-							if (err) return cb(err)
-
-							cb(null, [id, seq])
-						}),
-						(err, peers) => {
-							if (err) return done(err)
-
-							// TODO change
-							backup.peersLatestSequence = peers
-								.filter(Boolean)
-								.reduce((soFar, [id, seq]) => {
-									if (seq) soFar[id] = seq
-									return soFar
-								}, {})
-							done(null)
-						}
-					)
-				})
-			}
+			parallel([
+				getLatestSequence,
+				getName,
+			], save)
 		})
 
 		function save(err, success) {
@@ -104,6 +94,7 @@ exports.create = function (api) {
 			}
 
 			fs.writeFileSync(filename, JSON.stringify(backup, null, 2), 'utf8')
+			console.log("done saving")
 			cb(null, true)
 		}
 

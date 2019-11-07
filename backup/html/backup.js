@@ -33,7 +33,6 @@ exports.create = (api) => {
 					defaultPath: `${feedFragment}.ssb-backup`
 				})
 				.then((data) => {
-					console.log("returned", data )
 					const canceled = data.canceled
 					const filename = data.filePath
 					if (canceled ) {
