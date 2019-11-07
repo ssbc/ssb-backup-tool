@@ -10,10 +10,6 @@ const {
 	debugInfo
 } = require('electron-util');
 
-const showPreferences = () => {
-	// Show the app's preferences here
-};
-
 const helpSubmenu = [
 	openUrlMenuItem({
 		label: 'Website',
@@ -90,31 +86,14 @@ const debugSubmenu = [
 ];
 
 const macosTemplate = [
-	appMenu([
-		{
-			label: 'Preferences…',
-			accelerator: 'Command+,',
-			click() {
-				showPreferences();
-			}
-		}
-	]),
+	appMenu([]),
 	{
 		role: 'fileMenu',
 		submenu: [
 			{
-				label: 'Custom'
-			},
-			{
-				type: 'separator'
-			},
-			{
 				role: 'close'
 			}
 		]
-	},
-	{
-		role: 'editMenu'
 	},
 	{
 		role: 'viewMenu'
@@ -134,22 +113,9 @@ const otherTemplate = [
 		role: 'fileMenu',
 		submenu: [
 			{
-				label: 'Settings',
-				accelerator: 'Control+,',
-				click() {
-					showPreferences();
-				}
-			},
-			{
-				type: 'separator'
-			},
-			{
 				role: 'quit'
 			}
 		]
-	},
-	{
-		role: 'editMenu'
 	},
 	{
 		role: 'viewMenu'

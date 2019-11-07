@@ -1,0 +1,21 @@
+:tada: **Thanks for downloading {{pkg.name}}!** :tada:
+
+## Downloads
+
+{{#each release.assets}}
+{{#if label}}
+* [`{{name}}`]({{browser_download_url}}): {{label}}
+{{else}}
+* [`{{name}}`]({{browser_download_url}})
+{{/if}}
+{{/each}}
+
+## Changes
+
+{{changes}}
+
+## Support
+
+:thinking:  [Any questions? Check out the Scuttlebutt FAQ!](https://www.scuttlebutt.nz/faq/)
+
+:sos: [Need help? Please create an issue!](https://github.com/ssbc/{{pkg.name}}/issues/new)

@@ -18,7 +18,7 @@ debug();
 contextMenu();
 
 // Note: Must match `build.appId` in package.json
-app.setAppUserModelId('nz.scuttlebutt.ssb-backup-tool')
+app.setAppUserModelId('org.ssbc.ssb-backup-tool')
 
 // Uncomment this before publishing your first version.
 // It's commented out as it throws an error if there are no published versions.
@@ -113,6 +113,6 @@ app.on('window-all-closed', () => {
 	}
 
 	ipcMain.once('server-started', async (ev, config) => {
-		console.log("server started!", config)
+		console.log("server started!")
 	})
 })();

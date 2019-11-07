@@ -7,15 +7,6 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-  
-    - os: linux
-      language: node_js
-      node_js: lts/*
-
-    - os: windows
-      language: node_js
-      node_js: lts/*
-      filter_secrets: false
 
 cache:
   directories:

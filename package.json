@@ -5,6 +5,7 @@
 	"description": "A backup tool for the scuttleverse",
 	"license": "MIT",
 	"repository": "ssbc/ssb-backup-tool",
+	"private": true,
 	"author": {
 		"name": "Andre Alves Garzia",
 		"email": "andre@andregarzia.com",
@@ -12,15 +13,15 @@
 	},
 	"scripts": {
 		"postinstall": "electron-builder install-app-deps",
-		"lint": "xo",
-		"test": "npm run lint",
 		"start": "cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron .",
 		"pack": "electron-builder --dir",
-		"dist": "electron-builder --macos --windows --linux",
+		"dist": "electron-builder --macos --windows --linux ",
 		"dist:mac": "electron-builder --macos",
 		"dist:win": "electron-builder  --windows",
 		"dist:linux": "electron-builder --linux",
-		"release": "np"
+		"release": "env-cmd dist -- --publish always",
+		"release:win": "env-cmd electron-builder --windows --publish always",
+		"fix-release-notes": "env-cmd node scripts/fix-release-notes.js"
 	},
 	"dependencies": {
 		"cross-env": "^6.0.0",
@@ -70,30 +71,33 @@
 		"ssb-ws": "^6.2.3"
 	},
 	"devDependencies": {
-		"electron": "^6.0.7",
-		"electron-builder": "^21.2.0",
+		"electron": "^7.1.0",
+		"electron-builder": "^22.1.0",
+		"env-cmd": "^10.0.1",
+		"handlebars": "^4.5.1",
+		"node-fetch": "^2.6.0",
 		"np": "^5.0.3",
+		"open": "^7.0.0",
 		"xo": "^0.24.0"
-	},
-	"xo": {
-		"envs": [
-			"node",
-			"browser"
-		]
-	},
-	"np": {
-		"publish": false,
-		"releaseDraft": false
 	},
 	"build": {
 		"appId": "org.ssbc.ssb-backup-tool",
 		"win": {
-			"publish": ["github"]
+			"publish": [
+				"github"
+			],
+			"target": [
+				"nsis",
+				"portable",
+				"zip"
+			]
 		},
 		"mac": {
 			"category": "public.app-category.social-networking",
 			"darkModeSupport": true,
-			"publish": ["github"]
+			"publish": [
+				"github"
+			]
 		},
 		"dmg": {
 			"iconSize": 160,
@@ -113,10 +117,32 @@
 		"linux": {
 			"target": [
 				"AppImage",
-				"deb"
+				"deb",
+				"rpm",
+				"tar.xz",
+				"freebsd",
+				"snap"
 			],
-			"publish": ["github"],
+			"publish": [
+				"github"
+			],
 			"category": "Network;Chat"
 		}
-	}
+	},
+	"files": [
+		"**/*",
+		"!dist/installers",
+		"!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+		"!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+		"!**/node_modules/*.d.ts",
+		"!**/node_modules/.bin",
+		"!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+		"!.editorconfig",
+		"!.env",
+		"!**/._*",
+		"!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes,.vscode,.idea}",
+		"!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+		"!**/{appveyor.yml,.travis.yml,circle.yml,.env}",
+		"!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+	]
 }
