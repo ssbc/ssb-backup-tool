@@ -59,7 +59,9 @@ let main = async () => {
         body: JSON.stringify(payload)
     })).json()
 
-    await open(response.html_url)
+	console.log(`- Opening release notes.`)
+	await open(response.html_url)
+	process.exit(0)
 }
 
 main()

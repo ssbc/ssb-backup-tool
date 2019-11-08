@@ -29,7 +29,7 @@ const releases_url = api("https://api.github.com/repos/ssbc/ssb-backup-tool/rele
 
 
 let main = async () => {
-    console.log(`Fixing release notes for draft ${version}`)
+    console.log(`[CI VERSION] Fixing release notes for draft ${version}`)
     console.log(`- Getting releases from GitHub...`)
 
     let releases = await (await fetch(releases_url)).json()
@@ -58,7 +58,8 @@ let main = async () => {
         body: JSON.stringify(payload)
     })).json()
 
-    console.log(response.html_url)
+	console.log(response.html_url)
+	process.exit(0)
 }
 
 main()
