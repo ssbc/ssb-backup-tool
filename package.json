@@ -1,7 +1,7 @@
 {
 	"name": "ssb-backup-tool",
 	"productName": "SSB Backup Tool",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A backup tool for the scuttleverse",
 	"license": "MIT",
 	"repository": "ssbc/ssb-backup-tool",
@@ -16,10 +16,10 @@
 		"start": "cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron .",
 		"pack": "electron-builder --dir",
 		"dist": "electron-builder --macos --windows --linux ",
-		"release": "env-cmd electron-builder --macos --windows --linux --publish always",
+		"release": "env-cmd electron-builder --windows --macos --linux --publish always",
 		"release-ci": "electron-builder --macos --windows --linux --publish always",
 		"fix-release-notes": "env-cmd node scripts/fix-release-notes.js",
-		"fix-release-notes-ci": "node scripts/fix-release-notes.js"
+		"fix-release-notes-ci": "node scripts/fix-release-notes-ci.js"
 
 	},
 	"dependencies": {
@@ -75,9 +75,7 @@
 		"env-cmd": "^10.0.1",
 		"handlebars": "^4.5.1",
 		"node-fetch": "^2.6.0",
-		"np": "^5.0.3",
-		"open": "^7.0.0",
-		"xo": "^0.24.0"
+		"open": "^7.0.0"
 	},
 	"build": {
 		"appId": "org.ssbc.ssb-backup-tool",
