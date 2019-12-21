@@ -56,14 +56,14 @@ const createMainWindow = async () => {
 	const win = new BrowserWindow({
 		title: "SSB Backup Tool",
 		show: false,
-		width: 400,
+		width: 800,
 		height: 600,
 		webPreferences: { nodeIntegration: true }
 	});
 
 	win.on('ready-to-show', () => {
 		win.show()
-		win.closeDevTools()
+		// win.closeDevTools()
 	});
 
 	win.on('closed', () => {
@@ -107,9 +107,6 @@ app.on('window-all-closed', () => {
 
 	if (!fs.existsSync(path.join(CONFIG_FOLDER, 'secret'))) {
 		console.log('SSB not installed, run restore?')
-	} else {
-		console.log("creating server")
-		windows.background = await createBackgroundWindow();
 	}
 
 	ipcMain.once('server-started', async (ev, config) => {
