@@ -3,12 +3,11 @@ const Path = require('path')
 const electron = require('electron')
 const Client = require('ssb-client')
 const ssbKeys = require('ssb-keys')
+const Config = require("ssb-config/inject")
+const appName = process.env.ssb_appname || "ssb"
+const config = Config(appName)
 
 // pull config options out of depject
-let config = require('./config')
-console.log("config", config)
-
-config = config.create().config.sync.load()
 
 const createSbot = require('ssb-server')
 	.use(require('ssb-local'))

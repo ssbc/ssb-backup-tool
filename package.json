@@ -1,7 +1,7 @@
 {
 	"name": "ssb-backup-tool",
 	"productName": "SSB Backup Tool",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "A backup tool for the scuttleverse",
 	"license": "MIT",
 	"repository": "ssbc/ssb-backup-tool",
@@ -14,6 +14,7 @@
 	"scripts": {
 		"postinstall": "electron-builder install-app-deps",
 		"start": "cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true electron .",
+		"dev": "cross-env ELECTRON_DISABLE_SECURITY_WARNINGS=true DEVELOPMENT_MODE=true electron .",
 		"pack": "electron-builder --dir",
 		"dist": "electron-builder --macos --windows --linux ",
 		"release": "env-cmd electron-builder --windows --macos --linux --publish always",
@@ -71,8 +72,14 @@
 				"github"
 			],
 			"target": [
-				"nsis",
-				"zip"
+				{ 
+					"target": "nsis",
+					"arch": ["x64", "ia32"]
+				},
+				{
+					"target": "zip",
+					"arch": ["x64", "ia32", "arm64"]
+				}
 			]
 		},
 		"mac": {

@@ -8,6 +8,7 @@ const debug = require('electron-debug')
 const contextMenu = require('electron-context-menu')
 const menu = require('./menu')
 const appName = process.env.SSB_APPNAME || 'ssb'
+const developmentMode = process.env.DEVELOPMENT_MODE == "true" || false
 const os = require('os')
 const fs = require('fs')
 const CONFIG_FOLDER = path.join(os.homedir(), `.${appName}`)
@@ -37,13 +38,20 @@ let windows = {};
 
 const createBackgroundWindow = async () => {
 	if (!windows.background) {
+		console.log("creating background window...")
 		const bgWin = new BrowserWindow({
 			title: "SSB Backup tool server",
-			show: false,
-			width: 150,
-			height: 150,
+			show: developmentMode,
+			width: 500,
+			height: 500,
 			webPreferences: { nodeIntegration: true }
 
+		});
+
+		bgWin.on('closed', () => {
+			// Dereference the window
+			// For multiple windows store them in an array
+			windows.background = undefined
 		});
 
 		await bgWin.loadFile(path.join(__dirname, 'background.html'))
@@ -63,7 +71,9 @@ const createMainWindow = async () => {
 
 	win.on('ready-to-show', () => {
 		win.show()
-		// win.closeDevTools()
+		if (!developmentMode) {
+			win.closeDevTools()
+		}
 	});
 
 	win.on('closed', () => {
@@ -111,5 +121,11 @@ app.on('window-all-closed', () => {
 
 	ipcMain.once('server-started', async (ev, config) => {
 		console.log("server started!")
+		windows.main.webContents.send('server-started', config)
+	})
+
+	ipcMain.once('start-server', async () => {
+		console.log("attempting to start server...")
+		windows.background = await createBackgroundWindow()
 	})
 })();

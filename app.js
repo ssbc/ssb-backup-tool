@@ -1,9 +1,15 @@
 const m = require("mithril");
+const electron = require("electron")
 const Navigation = require("./navigation");
 const Welcome = require("./welcome");
 const Backup = require("./backup");
 const root = document.getElementById("root");
 
+
+electron.ipcRenderer.on('server-started', (event, config) => {
+	console.log("server started")
+	m.route.set("/backup/connect")
+})
 
 m.route(root, "/welcome", {
 	"/welcome": {
@@ -17,3 +23,4 @@ m.route(root, "/welcome", {
 		}
 	}
 });
+

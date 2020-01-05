@@ -37,6 +37,15 @@ $ npm install
 $ npm start
 ```
 
+### Run in development mode
+
+```
+$ npm install
+$ npm run dev
+```
+
+In _development mode_ the development tools are visible and both the main window and the background window responsible for the bundled ssb-server are visible.
+
 ### Publish
 
 ```

@@ -1,3 +1,7 @@
+# Version 0.0.5
+
+- Will attempt to launch bundled `ssb-server` if it can't connect to one.
+
 # Version 0.0.4
 
 - Refactored the source code to Mithril.

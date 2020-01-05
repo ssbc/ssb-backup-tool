@@ -10,6 +10,7 @@
 
 // dependencies needed...
 const m = require("mithril")
+const electron = require('electron')
 const marked = require("marked")
 const path = require("path")
 const fs = require("fs")
@@ -33,6 +34,7 @@ const secretFile = path.join(config.path, "secret")
 // script local variables used by multiple components...
 let backup = {}
 let sbot = false
+let attemptedToStartBuiltinServer = false
 
 /**
  * MessageWithIndeterminateProgress
@@ -176,7 +178,11 @@ const connect = {
         ssbClient(config, (err, server) => {
             if (err) {
                 console.error("err", err)
-                m.route.set("/backup/servernotrunning")
+                if (attemptedToStartBuiltinServer) {
+                    m.route.set("/backup/servernotrunning")
+                } else {
+                    m.route.set("/backup/startserver")
+                }
             } else {
                 sbot = server
                 backup.feed = sbot.id
@@ -187,6 +193,19 @@ const connect = {
     view: function (vnode) {
         return m(MessageWithIndeterminateProgress, {
             content: `Attempting to connect to the running ssb-server...`
+        })
+    }
+}
+
+const startserver = {
+    oncreate: function (vnode) {
+        attemptedToStartBuiltinServer = true
+        electron.ipcRenderer.send('start-server', config)
+
+    },
+    view: function (vnode) {
+        return m(MessageWithIndeterminateProgress, {
+            content: `Attempting to start SSB server...`
         })
     }
 }
@@ -412,6 +431,7 @@ const BackupView = {
         start,
         checkssbfolder,
         connect,
+        startserver,
         getdatafromserver,
         summary,
         saved,
