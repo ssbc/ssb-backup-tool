@@ -1,3 +1,7 @@
+# Version 0.0.6
+
+- Changed Windows and Linux target architectures to be `ia32`, `x64` and `arm64`.
+
 # Version 0.0.5
 
 - Will attempt to launch bundled `ssb-server` if it can't connect to one.

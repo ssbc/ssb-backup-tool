@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path')
-const {app, BrowserWindow, Menu, shell, ipcMain} = require('electron')
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 /// const {autoUpdater} = require('electron-updater')
-const {is} = require('electron-util')
+const { is } = require('electron-util')
 const unhandled = require('electron-unhandled')
 const debug = require('electron-debug')
 const contextMenu = require('electron-context-menu')
@@ -121,7 +121,9 @@ app.on('window-all-closed', () => {
 
 	ipcMain.once('server-started', async (ev, config) => {
 		console.log("server started!")
-		windows.main.webContents.send('server-started', config)
+		setTimeout(() => {
+			windows.main.webContents.send('server-started', config)
+		}, 20000)
 	})
 
 	ipcMain.once('start-server', async () => {

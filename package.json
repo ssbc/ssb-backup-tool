@@ -1,7 +1,7 @@
 {
 	"name": "ssb-backup-tool",
 	"productName": "SSB Backup Tool",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "A backup tool for the scuttleverse",
 	"license": "MIT",
 	"repository": "ssbc/ssb-backup-tool",
@@ -106,7 +106,10 @@
 		},
 		"linux": {
 			"target": [
-				"AppImage"
+				{
+					"target": "AppImage",
+					"arch": ["x64", "ia32", "arm64"]
+				}
 			],
 			"publish": [
 				"github"
