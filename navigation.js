@@ -32,7 +32,7 @@ const Navigation = {
                     menu: [
                         { link: "/welcome", label: "Welcome", active: activeRoute === "/welcome" },
                         { link: "/backup/start", label: "Backup", active: activeRoute.indexOf("/backup") > -1 },
-                        { link: "/restore", label: "Restore", active: activeRoute === "/restore" }
+                        { link: "/restore/start", label: "Restore", active: activeRoute.indexOf("/restore") > -1}
                     ]
                 })
             ),

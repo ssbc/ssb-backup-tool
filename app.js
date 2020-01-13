@@ -3,6 +3,7 @@ const electron = require("electron")
 const Navigation = require("./navigation");
 const Welcome = require("./welcome");
 const Backup = require("./backup");
+const Restore = require("./restore");
 const root = document.getElementById("root");
 
 
@@ -20,6 +21,11 @@ m.route(root, "/welcome", {
 	"/backup/:key": {
 		render: vnode => {
 			return m(Navigation, m(Backup, vnode.attrs))
+		}
+	},
+	"/restore/:key": {
+		render: vnode => {
+			return m(Navigation, m(Restore, vnode.attrs))
 		}
 	}
 });
