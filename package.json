@@ -1,7 +1,7 @@
 {
 	"name": "ssb-backup-tool",
 	"productName": "SSB Backup Tool",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "A backup tool for the scuttleverse",
 	"license": "MIT",
 	"repository": "ssbc/ssb-backup-tool",
