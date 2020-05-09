@@ -2,14 +2,12 @@ const m = require("mithril");
 const electron = require("electron")
 const Navigation = require("./navigation");
 const Welcome = require("./welcome");
-const Backup = require("./backup");
-const Restore = require("./restore");
 const root = document.getElementById("root");
 
 
-electron.ipcRenderer.on('server-started', (event, config) => {
-	console.log("server started")
-	m.route.set("/backup/connect")
+electron.ipcRenderer.on('server-started', (event, config, url) => {
+	console.log("server started", url)
+	m.route.set(url)
 })
 
 m.route(root, "/welcome", {
@@ -20,11 +18,13 @@ m.route(root, "/welcome", {
 	},
 	"/backup/:key": {
 		render: vnode => {
+			const Backup = require("./backup");
 			return m(Navigation, m(Backup, vnode.attrs))
 		}
 	},
 	"/restore/:key": {
 		render: vnode => {
+			const Restore = require("./restore");
 			return m(Navigation, m(Restore, vnode.attrs))
 		}
 	}

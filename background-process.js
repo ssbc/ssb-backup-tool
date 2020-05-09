@@ -10,13 +10,13 @@ const config = Config(appName)
 // pull config options out of depject
 
 const createSbot = require('ssb-server')
-	.use(require('ssb-local'))
 	.use(require('ssb-logging'))
 	.use(require('ssb-master'))
 	.use(require('ssb-no-auth'))
 	.use(require('ssb-unix-socket'))
 	// who and how to peer
-	.use(require('ssb-gossip'))
+	.use(require('ssb-conn'))
+	.use(require('ssb-lan'))
 	.use(require('ssb-replicate'))
 	.use(require('ssb-friends'))
 	.use(require('ssb-blobs'))
@@ -38,6 +38,8 @@ const createSbot = require('ssb-server')
 const manifestPath = Path.join(Path.join(config.path), 'manifest.json')
 const isNewInstall = !fs.existsSync(manifestPath)
 
+const url = location.hash.slice(1)
+
 if (isNewInstall) {
 	startSbot()
 } else {
@@ -49,7 +51,7 @@ if (isNewInstall) {
 			// there's already and sbot running and we've connected to it
 			console.log('> sbot running elsewhere. You are', server.id)
 			server.close() // close this client connection (app starts one of its own)
-			electron.ipcRenderer.send('server-started', config)
+			electron.ipcRenderer.send('server-started', config, url)
 		}
 	})
 }
@@ -63,5 +65,5 @@ function startSbot() {
 	console.log('  > updating updating manifest.json');
 	const manifest = sbot.getManifest();
 	fs.writeFileSync(manifestPath, JSON.stringify(manifest))
-	electron.ipcRenderer.send('server-started', config)
+	electron.ipcRenderer.send('server-started', config, url)
 }

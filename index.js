@@ -36,7 +36,7 @@ app.setAppUserModelId('org.ssbc.ssb-backup-tool')
 let windows = {};
 
 
-const createBackgroundWindow = async () => {
+const createBackgroundWindow = async (url) => {
 	if (!windows.background) {
 		console.log("creating background window...")
 		const bgWin = new BrowserWindow({
@@ -54,7 +54,7 @@ const createBackgroundWindow = async () => {
 			windows.background = undefined
 		});
 
-		await bgWin.loadFile(path.join(__dirname, 'background.html'))
+		await bgWin.loadURL("file://" + path.join(__dirname, `background.html`) + `#${url}`)
 
 		return bgWin
 	}
@@ -119,15 +119,15 @@ app.on('window-all-closed', () => {
 		console.log('SSB not installed, run restore?')
 	}
 
-	ipcMain.once('server-started', async (ev, config) => {
+	ipcMain.once('server-started', async (ev, config, url) => {
 		console.log("server started!")
 		setTimeout(() => {
-			windows.main.webContents.send('server-started', config)
-		}, 20000)
+			windows.main.webContents.send('server-started', config, url)
+		}, 25000)
 	})
 
-	ipcMain.once('start-server', async () => {
+	ipcMain.once('start-server', async (ev, url) => {
 		console.log("attempting to start server...")
-		windows.background = await createBackgroundWindow()
+		windows.background = await createBackgroundWindow(url)
 	})
 })();

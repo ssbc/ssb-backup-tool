@@ -41,10 +41,11 @@
 		"ssb-blobs": "^1.2.2",
 		"ssb-client": "^4.7.8",
 		"ssb-config": "^3.3.2",
+		"ssb-conn": "^0.17.0",
 		"ssb-ebt": "^5.6.7",
 		"ssb-friends": "^4.1.4",
-		"ssb-gossip": "^1.1.0",
 		"ssb-keys": "^7.2.0",
+		"ssb-lan": "^0.2.0",
 		"ssb-local": "^1.0.0",
 		"ssb-logging": "^1.0.0",
 		"ssb-master": "^1.0.3",
@@ -72,13 +73,20 @@
 				"github"
 			],
 			"target": [
-				{ 
+				{
 					"target": "nsis",
-					"arch": ["x64", "ia32"]
+					"arch": [
+						"x64",
+						"ia32"
+					]
 				},
 				{
 					"target": "zip",
-					"arch": ["x64", "ia32", "arm64"]
+					"arch": [
+						"x64",
+						"ia32",
+						"arm64"
+					]
 				}
 			]
 		},
@@ -108,7 +116,11 @@
 			"target": [
 				{
 					"target": "AppImage",
-					"arch": ["x64", "ia32", "arm64"]
+					"arch": [
+						"x64",
+						"ia32",
+						"arm64"
+					]
 				}
 			],
 			"publish": [
