@@ -62,7 +62,7 @@
 		"electron": "^7.0.0",
 		"electron-builder": "^21.2.0",
 		"env-cmd": "^10.0.1",
-		"handlebars": "^4.5.1",
+		"handlebars": "^4.5.3",
 		"node-fetch": "^2.6.0",
 		"open": "^7.0.0"
 	},
